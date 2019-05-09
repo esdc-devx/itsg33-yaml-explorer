@@ -4,6 +4,7 @@
     <form role="form">
       <SearchBox v-model="search" />
     </form>
+    <p>Results found: {{ found }}</p>
     <SearchResults v-model="filteredList" />
   </div>
 </template>
@@ -24,6 +25,9 @@ export default {
     }
   },
   computed: {
+    found: function () {
+      return Object.keys(this.filteredList).length
+    },
     filteredList: function () {
       if (this.search === '' || this.search.length === 1) {
         return this.controls
