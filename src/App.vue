@@ -1,27 +1,17 @@
 <template>
   <div id="app">
-    <HelloWorld v-bind:msg="name" />
+    <h1>{{ name }}</h1>
     <form role="form">
       <SearchBox v-model="search" />
     </form>
-    <div v-for="(control, name) in filteredList"
-      :key="name" >
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3> {{ name }} {{ control.name }} </h3>
-        </div>
-        <div class="panel-body">
-          <p> {{ control.description }} </p>
-        </div>
-      </div>
-    </div>
+    <SearchResults v-model="filteredList" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 import fetchYaml from './fetchYaml.js'
 import SearchBox from './components/SearchBox.vue'
+import SearchResults from './components/SearchResults.vue'
 import _ from 'lodash'
 
 export default {
@@ -56,13 +46,15 @@ export default {
     }
   },
   components: {
-    HelloWorld,
-    SearchBox
+    SearchBox,
+    SearchResults
   },
   created: function () {
     fetchYaml('https://raw.githubusercontent.com/cds-snc/ITSG-33-definitions/master/ITSG-33a.yaml').then(data => {
       this.name = data.name
       delete data.name
+      // Remove the empty control
+      delete data['Family-Control ID Enhancement']
       this.controls = data
     })
   }
