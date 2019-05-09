@@ -9,8 +9,11 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "core-js": "^2.6.5",
-    "vue": "^2.6.10"
+    "lodash": "^4.17.11",
+    "vue": "^2.6.10",
+    "yaml": "^1.5.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.7.0",

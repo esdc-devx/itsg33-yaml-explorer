@@ -1,17 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title>itsg33yamlviewer</title>
-  </head>
-  <body>
+<html lang="en-CA">
+
+<head>
+  <title>ITSG-33 Yaml Explorer</title>
+
+  <meta charset="utf-8">
+  <meta name="description" v-bind:content="description">
+  <meta name="keywords" content="App,Application,Hub,Dashboard,Code,Coverage,Automated,Unit Test">
+  <meta name="author" v-bind:content="author">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <link rel="stylesheet"type="text/css" href="<%= BASE_URL %>survey.css">
+  <script src="helper/startswith.js" type="text/javascript"></script>
+  <!--  CDTS implementation -->
+  <script type="text/javascript"
+    src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_30/cdts/compiled/soyutils.js"></script>
+  <script type="text/javascript"
+    src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_30/cdts/compiled/wet-en.js"></script>
+
+  <script type="text/javascript">
+    document.write(wet.builder.refTop({
+      cdnEnv: 'prod',
+      subTheme: 'gcweb',
+      jqueryEnv: 'external',
+      localPath: '',
+      isApplication: true
+    }));
+  </script>
+
+  <script type="text/javascript" src="helper/wet.js"></script>
+</head>
+
+  <body vocab="http://schema.org" typeof="WebPage">
+  <div id="def-top"></div>
     <noscript>
-      <strong>We're sorry but itsg33yamlviewer doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong>We're sorry but apphub doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
+    <main id="wb-cont" role="main" property="mainContentOfPage" class="container">
     <div id="app"></div>
     <!-- built files will be auto injected -->
-  </body>
+
+    <div id="def-preFooter"></div>
+    </main>
+  <div id="def-footer"></div>
+</body>
 </html>
