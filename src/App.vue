@@ -1,6 +1,11 @@
 <template>
   <div id="app">
     <h1>{{ name }}</h1>
+    <div class="alert alert-info">
+      <p>
+        <a href="https://github.com/esdc-devx/itsg33-yaml-explorer">Link to this project on GitHub</a>
+      </p>
+      </div>
     <form role="form">
       <SearchBox v-model="search" />
     </form>
