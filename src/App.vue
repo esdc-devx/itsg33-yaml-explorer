@@ -25,11 +25,18 @@ export default {
   data: function () {
     return {
       controls: {},
-      search: '',
       name: ''
     }
   },
   computed: {
+    search: {
+      get () {
+        return this.$store.state.searchTerm
+      },
+      set (value) {
+        this.$store.commit('search', value)
+      }
+    },
     found: function () {
       return Object.keys(this.filteredList).length
     },

@@ -1,12 +1,15 @@
 <template>
  <div>
     <div v-for="(control, name) in value"
-      :key="name" >
+      :key="name" class="wb-txthl">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h3> {{ name }} | {{ control.name }} </h3>  </div>
+          <h3> <span v-html="$options.filters.highlight(name, searchTerm)"></span> |
+               <span v-html="$options.filters.highlight(control.name, searchTerm)"></span></h3>  </div>
         <div class="panel-body">
-          <p> {{ control.description }} </p>
+          <p>
+            <span v-html="$options.filters.highlight(control.description, searchTerm)" ></span>
+            </p>
         </div>
       </div>
     </div>
@@ -15,7 +18,22 @@
 
 <script>
 export default {
-  props: ['value']
+  props: ['value'],
+  computed: {
+    searchTerm: function () {
+      return this.$store.state.searchTerm
+    }
+  },
+  filters: {
+    highlight: function (value, searchTerm) {
+      if (searchTerm.length <= 1) {
+        return value
+      }
+      const re = new RegExp(searchTerm, 'ig')
+      return value.replace(re, '<mark class="txthl">$&</mark>')
+    }
+  }
+
 }
 </script>
 
