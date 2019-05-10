@@ -6,6 +6,7 @@
       id="search"
       v-bind:value="value"
       v-on:input="$emit('input', $event.target.value)"
+      v-on:keydown.enter.prevent.stop
       type="text"/>
   </form-group>
 </template>
