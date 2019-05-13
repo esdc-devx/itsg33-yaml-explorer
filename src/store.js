@@ -64,7 +64,7 @@ export default new Vuex.Store({
       delete value.name
       delete value['Family-Control ID Enhancement']
 
-      state.controls = value
+      state.controls = _.mapValues(value, (x) => _.mapValues(x, y => y.replace(/\n/g, '<br />')))
 
       Object.freeze(state.controls)
     },
