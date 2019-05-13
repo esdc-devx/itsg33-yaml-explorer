@@ -7,10 +7,19 @@
       </p>
       </div>
     <form role="form">
-      <SearchBox v-model="search" />
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-6">
+            <SearchBox v-model="search" />
+          </div>
+          <div class="col-md-6">
+            <baselines/>
+          </div>
+        </div>
+      </div>
     </form>
     <p>Results found: {{ found }}</p>
-    <SearchResults v-model="filteredList" />
+    <SearchResults v-model="$store.getters.filteredList" />
   </div>
 </template>
 
@@ -18,7 +27,7 @@
 import fetchYaml from './fetchYaml.js'
 import SearchBox from './components/SearchBox.vue'
 import SearchResults from './components/SearchResults.vue'
-import _ from 'lodash'
+import Baselines from './components/Baselines.vue'
 
 export default {
   name: 'app',
@@ -38,40 +47,23 @@ export default {
       }
     },
     found: function () {
-      return Object.keys(this.filteredList).length
-    },
-    filteredList: function () {
-      if (this.search === '' || this.search.length === 1) {
-        return this.controls
-      }
-      const searchString = this.search.toLowerCase()
-
-      const keys = Object.keys(this.controls)
-      const filteredKeys = keys.filter(value => value.toLowerCase().includes(searchString))
-      const filterListByKeys = _.pick(this.controls, filteredKeys)
-
-      if (searchString.length <= 3 && filteredKeys.length > 0) {
-        return filterListByKeys
-      }
-
-      const filteredObj = _.pickBy(this.controls, val => {
-        return val.name.toLowerCase().includes(searchString) || val.description.toLowerCase().includes(searchString)
-      })
-
-      return _.merge(filteredObj, filterListByKeys)
+      return 10
     }
   },
   components: {
+    Baselines,
     SearchBox,
     SearchResults
   },
   created: function () {
     fetchYaml('https://raw.githubusercontent.com/cds-snc/ITSG-33-definitions/master/ITSG-33a.yaml').then(data => {
-      this.name = data.name
-      delete data.name
-      // Remove the empty control
-      delete data['Family-Control ID Enhancement']
-      this.controls = data
+      this.$store.commit('storeControls', data)
+    })
+    fetchYaml('https://raw.githubusercontent.com/cds-snc/ITSG-33-baselines/master/PBMM.yaml').then(data => {
+      this.$store.commit('storePBMM', data)
+    })
+    fetchYaml('https://raw.githubusercontent.com/cds-snc/ITSG-33-baselines/master/minimum-per-release.yaml').then(data => {
+      this.$store.commit('storeMinimum', data)
     })
   }
 }

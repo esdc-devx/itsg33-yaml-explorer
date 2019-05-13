@@ -2,7 +2,7 @@
  <div>
     <div v-for="(control, name) in value"
       :key="name" class="wb-txthl">
-      <div class="panel panel-primary">
+      <div class="panel panel-primary" >
         <div class="panel-heading">
           <h3> <span v-html="$options.filters.highlight(name, searchTerm)"></span> |
                <span v-html="$options.filters.highlight(control.name, searchTerm)"></span></h3>  </div>
