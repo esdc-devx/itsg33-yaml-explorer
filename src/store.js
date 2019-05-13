@@ -3,7 +3,9 @@ import Vuex from 'vuex'
 import _ from 'lodash'
 
 Vue.use(Vuex)
-
+function getControlsFromBaseline (bl) {
+  return Object.keys(bl.standards['ITSG-33a'])
+}
 function isExactMatchOnName (term, collection) {
   return (term.length === 2 &&
           objectHasProperties(collection))
@@ -34,6 +36,7 @@ function matchValue (val, key, term) {
 
 export default new Vuex.Store({
   state: {
+    baseline: 'none',
     searchTerm: '',
     name: '',
     controls: {},
@@ -41,23 +44,40 @@ export default new Vuex.Store({
     minimum: {}
   },
   getters: {
-    filteredList (state) {
+    found (state, getters) {
+      return Object.keys(getters.filteredList).length
+    },
+    baselineControls (state) {
+      switch (state.baseline) {
+        case 'none':
+          return state.controls
+        case 'pbmm':
+          return _.pick(state.controls, state.pbmm)
+        case 'min':
+          return _.pick(state.controls, state.minimum)
+      }
+    },
+    filteredList (state, getters) {
+      const ctls = getters.baselineControls
       if (isWorthSearching(state.searchTerm)) {
-        return state.controls
+        return ctls
       }
 
-      const filterByKeys = _.pickBy(state.controls, (val, key) => matchKeys(val, key, state.searchTerm))
+      const filterByKeys = _.pickBy(ctls, (val, key) => matchKeys(val, key, state.searchTerm))
 
       if (isExactMatchOnName(state.searchTerm, filterByKeys)) {
         return filterByKeys
       }
 
-      const filteredControls = _.pickBy(state.controls, (val, key) => matchValue(val, key, state.searchTerm))
+      const filteredControls = _.pickBy(ctls, (val, key) => matchValue(val, key, state.searchTerm))
       const mergedResults = _.merge(filterByKeys, filteredControls)
       return mergedResults
     }
   },
   mutations: {
+    changeSelection (state, value) {
+      state.baseline = value
+    },
     storeControls (state, value) {
       state.name = value.name
 
@@ -69,10 +89,10 @@ export default new Vuex.Store({
       Object.freeze(state.controls)
     },
     storePBMM (state, value) {
-      state.pbmm = value.standards.ITSG_33a
+      state.pbmm = getControlsFromBaseline(value)
     },
     storeMinimum (state, value) {
-      state.minimum = value.standards.ITSG_33a
+      state.minimum = getControlsFromBaseline(value)
     },
     search (state, value) {
       state.searchTerm = value.toLowerCase()

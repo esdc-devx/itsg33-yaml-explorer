@@ -18,7 +18,7 @@
         </div>
       </div>
     </form>
-    <p>Results found: {{ found }}</p>
+    <p>Results found: {{ $store.getters.found }}</p>
     <SearchResults v-model="$store.getters.filteredList" />
   </div>
 </template>
