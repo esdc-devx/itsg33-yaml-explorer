@@ -2,6 +2,9 @@
 
 Basic Search tool for the ITSG 33 Definitions maintained by CDS. 
 
+Still a work in progress, no guarantees it will work.
+
+
 
 ## Running locally
 
