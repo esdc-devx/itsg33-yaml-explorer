@@ -1,5 +1,6 @@
 import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
+import { Box, Heading, Paragraph } from "grommet"
 
 export default () => {
   const data = useStaticQuery(graphql`
@@ -28,11 +29,26 @@ export default () => {
   return (
      data.allInternalControls.edges.map(edge => { 
       const node = edge.node;
-      return <div>
-        <h2>{node.alternative_id} {node.Title}</h2>
-        <h3>Definition</h3> <p>{node.Definition}</p>
-        <h3>Supplemental Guidance</h3> <p>{node.Supplemental_Guidance}</p>
-      </div> 
+      const tags = [];
+      if (node.PALL === true){ 
+        tags.push("PALL")
+      }
+      if (node.PBMM === true){ 
+        tags.push("PBMM")
+      }
+      if (node.ULL === true){
+        tags.push("ULL")
+      }
+      return <Box key={node.id}>
+        <Heading level="2">{node.alternative_id} {node.Title}</Heading>
+        <ul>
+          {tags.map(tag => { 
+            return <li>{tag}</li>
+          })}
+        </ul>
+        <Heading level="3">Definition</Heading> <Paragraph>{node.Definition}</Paragraph>
+        <Heading level="3">Supplemental Guidance</Heading> <Paragraph>{node.Supplemental_Guidance}</Paragraph>
+      </Box> 
     })
   )
 }

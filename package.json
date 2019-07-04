@@ -16,10 +16,12 @@
     "gatsby-source-github-raw": "^1.2.5",
     "gatsby-transformer-json": "^2.2.0",
     "gatsby-transformer-sharp": "^2.2.1",
+    "grommet": "^2.7.2",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-helmet": "^5.2.1"
+    "react-helmet": "^5.2.1",
+    "styled-components": "^4.3.2"
   },
   "devDependencies": {
     "prettier": "^1.18.2"
