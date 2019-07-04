@@ -1,8 +1,9 @@
 import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import { Box, Heading, Paragraph } from "grommet"
+import Tags from "./tags"
 
-export default () => {
+export default (props) => {
   const data = useStaticQuery(graphql`
   query ControlsQuery {
     allInternalControls {
@@ -25,30 +26,20 @@ export default () => {
     }
   }
   `)
-
+  
   return (
-     data.allInternalControls.edges.map(edge => { 
-      const node = edge.node;
-      const tags = [];
-      if (node.PALL === true){ 
-        tags.push("PALL")
-      }
-      if (node.PBMM === true){ 
-        tags.push("PBMM")
-      }
-      if (node.ULL === true){
-        tags.push("ULL")
-      }
+    data.allInternalControls.edges.map(edge => {
+      const node = edge.node
+      console.log(`${node.alternative_id}: 
+        PBMM: ${node.PBMM}
+        PALL: ${node.PALL}
+        ULL: ${node.ULL} `)
       return <Box key={node.id}>
         <Heading level="2">{node.alternative_id} {node.Title}</Heading>
-        <ul>
-          {tags.map(tag => { 
-            return <li>{tag}</li>
-          })}
-        </ul>
+        <Tags pbmm={node.PBMM} pall={node.PALL} ull={node.ULL} />
         <Heading level="3">Definition</Heading> <Paragraph>{node.Definition}</Paragraph>
         <Heading level="3">Supplemental Guidance</Heading> <Paragraph>{node.Supplemental_Guidance}</Paragraph>
-      </Box> 
+      </Box>
     })
   )
 }
