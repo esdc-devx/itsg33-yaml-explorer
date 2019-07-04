@@ -1,9 +1,8 @@
 import React from "react"
-import { StaticQuery, graphql } from "gatsby"
+import { useStaticQuery, graphql } from "gatsby"
 
-export default () => (
-  <StaticQuery
-    query={graphql`
+export default () => {
+  const data = useStaticQuery(graphql`
   query ControlsQuery {
     allInternalControls {
       edges {
@@ -24,11 +23,18 @@ export default () => (
       }
     }
   }
-  `}
-    render={data => (
-      <p>{JSON.stringify(data)}</p>
-    )}
-  />
-)
+  `)
+
+  return (
+     data.allInternalControls.edges.map(edge => { 
+      const node = edge.node;
+      return <div>
+        <h2>{node.alternative_id} {node.Title}</h2>
+        <h3>Definition</h3> <p>{node.Definition}</p>
+        <h3>Supplemental Guidance</h3> <p>{node.Supplemental_Guidance}</p>
+      </div> 
+    })
+  )
+}
 
 
